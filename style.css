@@ -1,0 +1,182 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Pretendard', sans-serif;
+  background: url('img/전체배경.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  /* 👇 화면 크기가 변할 때 글꼴 크기가 급격히 변하는 것을 방지합니다. */
+  -webkit-text-size-adjust: 100%;
+}
+
+.container {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  width: 90%;
+  max-width: 440px; /* 👇 목표 해상도 너비에 맞춰 최대 너비를 조금 늘렸습니다. */
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+#introScreen {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.invite-image {
+  width: 90%;
+  max-width: 360px;
+  height: auto;
+  border-radius: 8px;
+  /* 👇 이미지와 버튼 사이 간격을 화면 높이에 비례하도록 변경했습니다. (vh = viewport height) */
+  margin-bottom: 5vh; 
+  animation: glowPulse 0.8s infinite alternate;
+}
+
+/* 빛이 커졌다 작아지는 애니메이션 */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 102, 163, 0.3);
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(255, 102, 163, 0.7);
+    transform: scale(1.02);
+  }
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #ED4797;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 8px rgba(255, 255, 255, 0.25),     /* 밝은 바깥 그림자 */
+    0 2px 4px rgba(255, 255, 255, 0.2) inset; /* 안쪽 광택 */
+
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* 클릭 시 살짝 눌리는 효과 */
+button:active {
+  transform: scale(0.96);
+  box-shadow:
+    0 2px 4px rgba(255, 255, 255, 0.3),
+    0 1px 2px rgba(255, 255, 255, 0.2) inset;
+}
+
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2.5s ease;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 어두워지는 효과 활성화 시 적용됨 */
+#overlay.show {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 영상 전체화면 재생 + 채우기 */
+#introVideo {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 3.0s ease;
+
+  /* 👇 기본값은 화면을 가득 채우도록 설정합니다 (주로 PC 등 가로 화면용). */
+  object-fit: cover;
+}
+
+/* 화면이 세로 방향일 때 (대부분의 모바일) 적용될 스타일입니다.
+  @media (orientation: portrait)
+*/
+@media (orientation: portrait) {
+  #introVideo {
+    /* 'contain'으로 변경하면 영상이 잘리지 않고 비율에 맞춰
+      화면 안에 모두 들어오게 됩니다. 남는 공간은 검게 표시됩니다.
+    */
+    object-fit: contain;
+
+    transform: scale(1.8);
+  }
+}
+
+/* 영상 페이드 인 효과용 */
+#introVideo.show {
+  opacity: 1;
+} 
+
+.hidden {
+  display: none;
+  /*opacity: 0;*/
+}
+
+/* 수정 후 코드 */
+#mainContent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* 👇 이 부분을 black에서 transparent로 변경하여 배경이 투명하게 만듭니다. */
+  background-color: transparent; 
+  color: white;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 1.5s ease;
+  z-index: 9999;
+  padding: 1rem;
+  box-sizing: border-box;
+  opacity: 0;
+  /* 이전 단계에서 추가했던 display:flex는 여기서 제거합니다. */
+  /* 자바스크립트에서 제어하도록 하여 충돌을 방지합니다. */
+}
+
+#mainContent.is-visible {
+  opacity: 1;
+}
+
+#mainContent h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  /* 👇 이전 단계에서 추가했던 opacity와 transition을 제거하여 
+     부모 요소(#mainContent)의 투명도를 따라가게 합니다. */
+}
+
+.content-image {
+  width: 80%; /* 화면 너비의 80% 크기 */
+  max-width: 300px; /* 하지만 최대 300px를 넘지 않도록 설정 */
+  height: auto; /* 높이는 비율에 맞게 자동 조절 */
+  margin-top: 2rem; /* 위쪽 제목과의 간격 */
+   /* 모서리를 살짝 둥글게 */
+}

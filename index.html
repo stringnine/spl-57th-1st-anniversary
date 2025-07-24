@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>초대장</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container" id="introScreen">
+    <img src="img/초대장.png" alt="초대장" class="invite-image" />
+    <button id="checkBtn">ENTER</button>
+  </div>
+
+  <!-- ✅ 어두워지는 오버레이와 영상 -->
+  <div id="overlay">
+    <video id="introVideo" src="video/스프링.mp4" playsinline  preload="auto"></video>
+  </div>
+
+    <!-- ✅ 영상 후에 보이는 새로운 화면 -->
+  <div id="mainContent" class="hidden">
+    <h1>초대장 확인 페이지입니다</h1>
+    <img src="img/test_2.png" alt="테스트 이미지" class="content-image">
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
