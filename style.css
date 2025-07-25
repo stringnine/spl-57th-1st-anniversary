@@ -34,7 +34,7 @@ html, body {
   border-radius: 8px;
   /* 👇 이미지와 버튼 사이 간격을 화면 높이에 비례하도록 변경했습니다. (vh = viewport height) */
   margin-bottom: 5vh; 
-  animation: glowPulse 0.8s infinite alternate;
+  animation: glowPulse 0.7s infinite alternate;
 }
 
 /* 빛이 커졌다 작아지는 애니메이션 */
@@ -179,4 +179,61 @@ button:active {
   height: auto; /* 높이는 비율에 맞게 자동 조절 */
   margin-top: 2rem; /* 위쪽 제목과의 간격 */
    /* 모서리를 살짝 둥글게 */
+}
+
+/* 버튼들을 담는 컨테이너 스타일 */
+.button-container {
+  display: flex; /* 버튼들을 가로로 나란히 배치 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center;
+  gap: 70px; /* 버튼 사이의 간격 */
+  margin-top: 1.3rem; /* 초대장 이미지와의 간격 */
+}
+
+/* O, X 버튼 공통 스타일 */
+.choice-button {
+  background: none; /* 버튼 배경 제거 */
+  border: none; /* 버튼 테두리 제거 */
+  padding: 0; /* 버튼 내부 여백 제거 */
+  cursor: pointer; /* 마우스 올렸을 때 손가락 모양으로 변경 */
+  transition: transform 0.2s ease; /* 부드러운 효과를 위한 transition */
+}
+
+/* 버튼 안의 이미지 크기 조절 */
+.choice-button img {
+  width: 70px; /* 이미지 너비, 원하는 크기로 조절 가능 */
+  height: auto; /* 높이는 비율에 맞게 자동 조절 */
+}
+
+/* 마우스를 올렸을 때 약간 커지는 효과 */
+.choice-button:hover {
+  transform: scale(1.1);
+}
+
+/* 클릭했을 때 살짝 작아지는 효과 */
+.choice-button:active {
+  transform: scale(0.95);
+}
+
+/* 마지막 화면 공통 스타일 */
+#endScreen {
+  position: fixed; /* 화면에 고정 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+ 
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; /* 배경은 투명하게 */
+  opacity: 0; /* 처음엔 투명하게 */
+  transition: opacity 1.5s ease; /* 부드러운 전환 효과 */
+}
+
+/* 마지막 화면 안의 이미지 스타일 */
+.end-image {
+  width: 90%; /* 화면 너비의 90% */
+  max-width: 440px; /* 최대 너비 설정 */
+  height: auto;
+  border-radius: 8px;
 }

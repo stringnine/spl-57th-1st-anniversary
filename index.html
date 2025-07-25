@@ -21,8 +21,20 @@
 
     <!-- ✅ 영상 후에 보이는 새로운 화면 -->
   <div id="mainContent" class="hidden">
-    <img src="img/invite.png" alt="테스트 이미지" class="content-image">
+    <img src="img/invite.png" alt="초대장" class="content-image">
 
+    <div class="button-container">
+      <button id="acceptBtn" class="choice-button">
+        <img src="img/O.png" alt="참석">
+      </button>
+      <button id="rejectBtn" class="choice-button">
+        <img src="img/X.png" alt="불참">
+      </button>
+    </div>
+  </div>
+
+  <div id="endScreen" class="hidden">
+    <img src="img/end_img.png" alt="마지막 이미지" class="end-image">
   </div>
 
   <script src="script.js"></script>

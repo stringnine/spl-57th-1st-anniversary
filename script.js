@@ -1,32 +1,45 @@
-// 최종 수정된 script.js
+// script.js (전체 수정된 최종 코드)
 
+// 모든 화면 요소들을 미리 가져옵니다.
 const checkBtn = document.getElementById("checkBtn");
 const overlay = document.getElementById("overlay");
 const video = document.getElementById("introVideo");
 const introScreen = document.getElementById("introScreen");
 const mainContent = document.getElementById("mainContent");
+const endScreen = document.getElementById("endScreen");
+const acceptBtn = document.getElementById("acceptBtn");
+const rejectBtn = document.getElementById("rejectBtn");
 
-/*
-✅ 문제 1 해결: ENTER 클릭 시 서서히 어두워지게 하기
-*/
+// --- 화면 전환 함수 (재사용을 위해 만듦) ---
+// 화면을 서서히 사라지게 하는 함수
+function fadeOut(element) {
+  element.style.opacity = '0';
+  setTimeout(() => {
+    element.style.display = 'none';
+  }, 1500);
+}
+
+// ✅ 수정된 fadeIn 함수
+// 화면을 서서히 나타나게 하는 함수 (어떤 display 타입으로 나타낼지 지정 가능)
+function fadeIn(element, displayType = 'flex') { // 기본값을 'flex'로 설정
+  element.style.display = displayType;
+  setTimeout(() => {
+    element.style.opacity = '1';
+  }, 1500);
+}
+
+// --- 이벤트 리스너 설정 ---
+
+// 1. 첫 화면 -> 영상
 checkBtn.addEventListener("click", function () {
-  // 1. 오버레이를 화면에 표시하되, 아직은 투명한 상태로 만듭니다.
-  overlay.style.display = "flex";
+  fadeIn(overlay); // overlay는 flex로 나타나야 함
 
-  // 2. 아주 잠깐(10ms)의 시간차를 두고 'show' 클래스를 추가합니다.
-  //    이렇게 하면 display 속성이 먼저 적용된 후 opacity 애니메이션이 실행되어
-  //    화면이 '확' 어두워지지 않고 부드럽게 어두워집니다.
   setTimeout(() => {
     overlay.classList.add("show");
   }, 10);
 
-  // 기존의 초대장 화면이 서서히 사라지는 로직은 그대로 유지합니다.
-  introScreen.style.opacity = "0";
-  setTimeout(() => {
-    introScreen.style.display = "none";
-  }, 1000);
+  fadeOut(introScreen);
 
-  // 2초 후 영상을 재생하는 로직도 그대로 유지합니다.
   setTimeout(() => {
     video.classList.add("show");
     video.muted = false;
@@ -35,18 +48,25 @@ checkBtn.addEventListener("click", function () {
   }, 2000);
 });
 
+// 2. 영상 -> 초대장 화면
 video.addEventListener("ended", () => {
-  // 1. 영상이 재생되던 검은색 오버레이를 서서히 투명하게 만듭니다.
-  //    이 과정에서 body에 설정된 '전체배경.png'가 자연스럽게 드러납니다.
   overlay.classList.remove("show");
+  fadeIn(mainContent); // mainContent는 flex로 나타나야 함
+});
 
-  // 2. 오버레이가 사라지는 동시에, 최종 콘텐츠(#mainContent)를 화면에 표시합니다.
-  mainContent.classList.remove("hidden");
-  mainContent.style.display = "flex";
-
-  // 3. #mainContent가 서서히 나타나도록(fade-in) 투명도를 1로 변경합니다.
-  //    #mainContent의 배경은 투명하므로, 텍스트와 다른 내용들만 보이게 됩니다.
+// ✅ 3. X 버튼 클릭: 초대장 화면 -> 첫 화면으로
+rejectBtn.addEventListener('click', () => {
+  fadeOut(mainContent);
   setTimeout(() => {
-    mainContent.classList.add("is-visible");
-  }, 1000);
+    // introScreen은 flex가 아닌 block으로 나타나야 레이아웃이 유지됨
+    fadeIn(introScreen, 'block'); 
+  }, 1500);
+});
+
+// 4. O 버튼 클릭: 초대장 화면 -> 마지막 이미지 화면으로
+acceptBtn.addEventListener('click', () => {
+  fadeOut(mainContent);
+  setTimeout(() => {
+    fadeIn(endScreen); // endScreen은 flex로 나타나야 함
+  }, 1500);
 });
